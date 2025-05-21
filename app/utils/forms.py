@@ -1,7 +1,7 @@
 from flask_wtf import FlaskForm
 from flask_wtf.file import FileField, FileAllowed, FileRequired
 from wtforms import StringField, PasswordField, TextAreaField, SelectField, DateTimeField, FloatField, SubmitField
-from wtforms.validators import DataRequired, Email, EqualTo, Length, ValidationError, Optional, NumberRange
+from wtforms.validators import DataRequired, Email, EqualTo, Length, ValidationError, Optional, NumberRange, URL
 from datetime import datetime
 
 from app.models.user import User
@@ -97,14 +97,16 @@ class SubmissionForm(FlaskForm):
     
     Attributes:
         content: Nội dung bài nộp (optional)
-        file: File bài nộp (jpg, jpeg, png, gif, pdf, doc, docx, ppt, pptx, zip)
+        file: File bài nộp (jpg, jpeg, png, gif, pdf, doc, docx, ppt, pptx, zip) tối đa 100MB
+        link: Link đến bài nộp (optional)
         submit: Nút submit
     """
     content = TextAreaField('Mô tả bài nộp', validators=[Optional()])
-    file = FileField('File đính kèm', validators=[
+    file = FileField('File đính kèm (tối đa 100MB)', validators=[
         FileAllowed(['jpg', 'jpeg', 'png', 'gif', 'pdf', 'doc', 'docx', 'ppt', 'pptx', 'zip'], 
                     'Chỉ cho phép các định dạng: jpg, jpeg, png, gif, pdf, doc, docx, ppt, pptx, zip')
     ])
+    link = StringField('Link bài nộp', validators=[Optional(), URL(message='Link không hợp lệ')])
     submit = SubmitField('Nộp bài')
     
     def validate_file(self, file):

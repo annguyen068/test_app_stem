@@ -67,6 +67,15 @@
                 </div>
                 {% endif %}
 
+                {% if submission.link %}
+                <div class="mb-4">
+                    <h5 class="card-subtitle mb-2 text-muted">Link bài nộp</h5>
+                    <a href="{{ submission.link }}" target="_blank" class="btn btn-outline-info">
+                        <i class="fas fa-external-link-alt me-2"></i>Mở link
+                    </a>
+                </div>
+                {% endif %}
+
                 <div class="mt-4">
                     <h5 class="card-subtitle mb-2 text-muted">Kết quả</h5>
                     {% if submission.is_graded() %}
@@ -102,7 +111,7 @@
 
                     <div class="mb-3">
                         {{ form.content.label(class="form-label") }}
-                        {{ form.content(class="form-control", rows=4) }}
+                        {{ form.content(class="form-control", rows=5) }}
                         {% if form.content.errors %}
                         <div class="invalid-feedback d-block">
                             {% for error in form.content.errors %}
@@ -122,8 +131,21 @@
                             {% endfor %}
                         </div>
                         {% endif %}
-                        <div class="form-text">Định dạng cho phép: jpg, jpeg, png, gif, pdf, doc, docx, ppt, pptx, zip.
-                            Kích thước tối đa: 10MB.</div>
+                        <small class="text-muted">Tối đa 100MB. Định dạng cho phép: jpg, jpeg, png, gif, pdf, doc, docx,
+                            ppt, pptx, zip</small>
+                    </div>
+
+                    <div class="mb-3">
+                        {{ form.link.label(class="form-label") }}
+                        {{ form.link(class="form-control") }}
+                        {% if form.link.errors %}
+                        <div class="invalid-feedback d-block">
+                            {% for error in form.link.errors %}
+                            {{ error }}
+                            {% endfor %}
+                        </div>
+                        {% endif %}
+                        <small class="text-muted">Nhập link đến bài nộp của bạn (nếu có)</small>
                     </div>
 
                     <div class="d-grid gap-2">
@@ -131,8 +153,9 @@
                     </div>
                 </form>
                 {% else %}
-                <div class="alert alert-danger">
-                    <i class="fas fa-exclamation-triangle me-2"></i>Dự án đã hết hạn nộp bài.
+                <div class="alert alert-warning mb-0">
+                    <h4 class="alert-heading">Dự án đã hết hạn nộp bài!</h4>
+                    <p class="mb-0">Bạn không thể nộp bài cho dự án này nữa.</p>
                 </div>
                 {% endif %}
             </div>

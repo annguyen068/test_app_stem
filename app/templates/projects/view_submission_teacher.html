@@ -40,6 +40,15 @@
                     </a>
                 </div>
                 {% endif %}
+
+                {% if submission.link %}
+                <div class="mb-4">
+                    <h5 class="card-subtitle mb-2 text-muted">Link bài nộp</h5>
+                    <a href="{{ submission.link }}" target="_blank" class="btn btn-outline-info">
+                        <i class="fas fa-external-link-alt me-2"></i>Mở link
+                    </a>
+                </div>
+                {% endif %}
             </div>
         </div>
     </div>
@@ -98,10 +107,10 @@
                 <h3 class="card-title mb-0">Kết quả chấm điểm</h3>
             </div>
             <div class="card-body">
-                <div class="alert alert-success">
+                <div class="alert alert-success mb-0">
                     <h4 class="alert-heading">Điểm số: {{ submission.score }} / 10</h4>
-                    <p class="mb-0"><strong>Phản hồi cho học sinh:</strong></p>
-                    <p>{{ submission.feedback or 'Không có phản hồi' }}</p>
+                    <p class="mb-0"><strong>Phản hồi:</strong></p>
+                    <p class="mb-0">{{ submission.feedback or 'Không có phản hồi' }}</p>
                 </div>
             </div>
         </div>

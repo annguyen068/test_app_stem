@@ -68,6 +68,7 @@ class Submission(db.Model):
         id: ID duy nhất của bài nộp
         content: Mô tả hoặc nội dung bài nộp
         file_path: Đường dẫn đến file đã tải lên
+        link: Link đến bài nộp (tùy chọn)
         score: Điểm số bài nộp (None nếu chưa chấm)
         feedback: Phản hồi từ giáo viên (None nếu chưa có)
         submitted_at: Thời điểm nộp bài
@@ -79,6 +80,7 @@ class Submission(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     content = db.Column(db.Text, nullable=True)
     file_path = db.Column(db.String(255), nullable=True)
+    link = db.Column(db.String(500), nullable=True)
     score = db.Column(db.Float, nullable=True)
     feedback = db.Column(db.Text, nullable=True)
     submitted_at = db.Column(db.DateTime, default=datetime.utcnow)
@@ -87,7 +89,7 @@ class Submission(db.Model):
     project_id = db.Column(db.Integer, db.ForeignKey('projects.id'), nullable=False)
     student_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
     
-    def __init__(self, content, file_path, project_id, student_id):
+    def __init__(self, content, file_path, project_id, student_id, link=None):
         """Khởi tạo bài nộp mới
         
         Args:
@@ -95,11 +97,13 @@ class Submission(db.Model):
             file_path: Đường dẫn đến file đã tải lên
             project_id: ID của dự án
             student_id: ID của học sinh
+            link: Link đến bài nộp (tùy chọn)
         """
         self.content = content
         self.file_path = file_path
         self.project_id = project_id
         self.student_id = student_id
+        self.link = link
     
     def get_file_name(self):
         """Lấy tên file từ đường dẫn file

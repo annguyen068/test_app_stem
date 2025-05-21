@@ -224,9 +224,19 @@ def submit(project_id):
     
     if form.validate_on_submit():
         try:
+            # Kiểm tra xem có file hoặc link không
+            if not form.file.data and not form.link.data:
+                flash('Vui lòng nộp file hoặc cung cấp link.', 'danger')
+                return redirect(url_for('projects.view', project_id=project.id))
+            
             # Lưu file (nếu có)
             file_path = None
             if form.file.data:
+                # Kiểm tra kích thước file (100MB)
+                if len(form.file.data.read()) > 100 * 1024 * 1024:
+                    flash('File không được vượt quá 100MB.', 'danger')
+                    return redirect(url_for('projects.view', project_id=project.id))
+                form.file.data.seek(0)  # Reset con trỏ file
                 file_path = save_file(form.file.data)
                 if not file_path:
                     flash('Có lỗi xảy ra khi lưu file.', 'danger')
@@ -236,6 +246,7 @@ def submit(project_id):
             submission = Submission(
                 content=form.content.data,
                 file_path=file_path,
+                link=form.link.data,
                 project_id=project.id,
                 student_id=current_user.id
             )
