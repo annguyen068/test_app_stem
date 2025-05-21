@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+
+{% block title %}Trang không tồn tại - Quản Lý Dự Án STEM{% endblock %}
+
+{% block content %}
+<div class="text-center py-5">
+    <div class="mb-4">
+        <span class="display-1 text-muted">404</span>
+    </div>
+    <h1 class="display-4 mb-3">Không tìm thấy trang</h1>
+    <p class="lead">Trang bạn đang tìm kiếm không tồn tại hoặc đã bị di chuyển.</p>
+    <div class="mt-4">
+        <a href="{{ url_for('main.index') }}" class="btn btn-primary">
+            <i class="fas fa-home me-2"></i>Quay về trang chủ
+        </a>
+    </div>
+</div>
+{% endblock %}

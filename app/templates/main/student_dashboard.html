@@ -1,0 +1,110 @@
+{% extends "base.html" %}
+
+{% block title %}Bảng điều khiển Học sinh - Quản Lý Dự Án STEM{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h1>Bảng điều khiển Học sinh</h1>
+    <a href="{{ url_for('main.submissions') }}" class="btn btn-info">
+        <i class="fas fa-file-alt me-2"></i>Bài nộp của tôi
+    </a>
+</div>
+
+<div class="card shadow mb-4">
+    <div class="card-header bg-primary text-white">
+        <h3 class="card-title mb-0">Dự án đang mở</h3>
+    </div>
+    <div class="card-body">
+        {% if projects %}
+        <div class="row">
+            {% for project in projects %}
+            {% if project.is_active() %}
+            <div class="col-md-6 mb-4">
+                <div class="card h-100 {% if project.id in submitted_project_ids %}border-success{% endif %}">
+                    <div class="card-header d-flex justify-content-between align-items-center">
+                        <h5 class="card-title mb-0">{{ project.title }}</h5>
+                        {% if project.id in submitted_project_ids %}
+                        <span class="badge bg-success">Đã nộp</span>
+                        {% else %}
+                        <span class="badge bg-warning">Chưa nộp</span>
+                        {% endif %}
+                    </div>
+                    <div class="card-body">
+                        <p class="card-text">{{ project.description|truncate(100) }}</p>
+                        <div class="d-flex justify-content-between align-items-center">
+                            <small class="text-muted">
+                                <i class="fas fa-clock me-1"></i>Hạn nộp: {{ project.deadline.strftime('%d/%m/%Y %H:%M')
+                                }}
+                            </small>
+                            <a href="{{ url_for('projects.view', project_id=project.id) }}"
+                                class="btn btn-primary btn-sm">
+                                {% if project.id in submitted_project_ids %}
+                                <i class="fas fa-eye me-1"></i>Xem bài nộp
+                                {% else %}
+                                <i class="fas fa-upload me-1"></i>Nộp bài ngay
+                                {% endif %}
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endif %}
+            {% endfor %}
+        </div>
+        {% else %}
+        <div class="alert alert-info">
+            <i class="fas fa-info-circle me-2"></i>Hiện không có dự án nào đang mở.
+        </div>
+        {% endif %}
+    </div>
+</div>
+
+<div class="card shadow mb-4">
+    <div class="card-header bg-secondary text-white">
+        <h3 class="card-title mb-0">Dự án đã đóng</h3>
+    </div>
+    <div class="card-body">
+        {% if projects %}
+        <div class="table-responsive">
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th>Tiêu đề</th>
+                        <th>Hạn nộp</th>
+                        <th>Trạng thái</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for project in projects %}
+                    {% if not project.is_active() %}
+                    <tr>
+                        <td>{{ project.title }}</td>
+                        <td>{{ project.deadline.strftime('%d/%m/%Y %H:%M') }}</td>
+                        <td>
+                            {% if project.id in submitted_project_ids %}
+                            <span class="badge bg-success">Đã nộp</span>
+                            {% else %}
+                            <span class="badge bg-danger">Chưa nộp</span>
+                            {% endif %}
+                        </td>
+                        <td>
+                            <a href="{{ url_for('projects.view', project_id=project.id) }}"
+                                class="btn btn-sm btn-outline-primary">
+                                <i class="fas fa-eye me-1"></i>Xem
+                            </a>
+                        </td>
+                    </tr>
+                    {% endif %}
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        {% else %}
+        <div class="alert alert-info">
+            <i class="fas fa-info-circle me-2"></i>Không có dự án nào đã đóng.
+        </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}
