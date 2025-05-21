@@ -15,6 +15,15 @@
 - Tải lên file đính kèm cho bài nộp
 - Xem điểm và phản hồi từ giáo viên
 
+## Công nghệ sử dụng
+
+- Python 3.8+
+- Flask 3.0.2
+- SQLAlchemy 2.0.28
+- WTForms 3.1.2
+- Bootstrap 5
+- SQLite (có thể thay đổi sang PostgreSQL/MySQL)
+
 ## Cấu trúc dự án
 
 ```
@@ -38,27 +47,17 @@ app/
 └── utils/             # Các tiện ích
     ├── forms.py       # Định nghĩa forms
     └── file_utils.py  # Xử lý file upload
-
-config.py              # Cấu hình chung cho ứng dụng
-run.py                 # Entry point để chạy ứng dụng
-tests/                 # Thư mục chứa test cases
-uploads/               # Thư mục lưu trữ file uploads
 ```
 
-## Yêu cầu hệ thống
-
-- Python 3.8+
-- Các thư viện được liệt kê trong `requirements.txt`
-
-## Cài đặt
+## Cài đặt và Chạy
 
 1. Clone repository:
 ```bash
-git clone <repository-url>
-cd stem-project-manager
+git clone https://github.com/annguyen068/test_app_stem.git
+cd test_app_stem
 ```
 
-2. Tạo và kích hoạt môi trường ảo (khuyến nghị):
+2. Tạo và kích hoạt môi trường ảo:
 ```bash
 python -m venv venv
 # Windows
@@ -67,24 +66,32 @@ venv\Scripts\activate
 source venv/bin/activate
 ```
 
-3. Cài đặt các phụ thuộc:
+3. Cài đặt dependencies:
 ```bash
 pip install -r requirements.txt
 ```
 
-4. Khởi tạo cơ sở dữ liệu:
+4. Tạo file .env với nội dung:
+```
+SECRET_KEY=your_secret_key_here
+SQLALCHEMY_DATABASE_URI=sqlite:///stem_projects.db
+UPLOAD_FOLDER=uploads
+MAX_CONTENT_LENGTH=10485760  # 10MB
+```
+
+5. Khởi tạo database:
 ```bash
 flask db init
 flask db migrate -m "Initial migration"
 flask db upgrade
 ```
 
-5. Chạy ứng dụng:
+6. Chạy ứng dụng:
 ```bash
 python run.py
 ```
 
-Sau khi chạy, ứng dụng sẽ có thể truy cập tại [http://127.0.0.1:5000](http://127.0.0.1:5000)
+Truy cập ứng dụng tại: http://127.0.0.1:5000
 
 ## Kiểm thử
 
@@ -93,13 +100,18 @@ Chạy kiểm thử tự động:
 python -m pytest tests/
 ```
 
-## Thông tin bảo mật
+## Đóng góp
 
-Trong môi trường sản xuất:
-1. Thay đổi `SECRET_KEY` trong file `.env` hoặc biến môi trường
-2. Cấu hình cơ sở dữ liệu an toàn (thay vì SQLite)
-3. Cấu hình HTTPS
+1. Fork repository
+2. Tạo branch mới (`git checkout -b feature/AmazingFeature`)
+3. Commit thay đổi (`git commit -m 'Add some AmazingFeature'`)
+4. Push lên branch (`git push origin feature/AmazingFeature`)
+5. Tạo Pull Request
 
 ## Giấy phép
 
-[MIT](LICENSE) 
+[MIT](LICENSE)
+
+## Tác giả
+
+An Nguyen - [@annguyen068](https://github.com/annguyen068) 
